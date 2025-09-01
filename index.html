@@ -403,19 +403,25 @@
             transform: translateX(8px);
         }
 
-        /* Enhanced Hero Section - REMOVIDA SOBREPOSIÇÃO VERDE */
+        /* Enhanced Hero Section with Video Background */
         .hero {
             height: 100vh;
-            background: url('Casa 1.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             position: relative;
             overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
         }
 
         /* Sobreposição mínima apenas para melhorar legibilidade do texto */
@@ -426,7 +432,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.3);
             z-index: 1;
         }
 
@@ -1631,8 +1637,8 @@
                 transition-duration: 0.01ms !important;
             }
             
-            .hero {
-                background-attachment: scroll;
+            .hero-video {
+                animation: none;
             }
         }
 
@@ -1674,10 +1680,6 @@
                 padding: var(--space-md) var(--space-lg);
             }
             
-            .hero {
-                background-attachment: scroll;
-            }
-            
             .section {
                 padding: var(--space-3xl) 0;
             }
@@ -1716,7 +1718,6 @@
             .hero {
                 height: 100vh;
                 padding: 0 var(--space-md);
-                background-attachment: scroll;
             }
             
             .hero-title {
@@ -2010,6 +2011,10 @@
     <div id="home" class="page active">
         <!-- Hero Section -->
         <section class="hero" role="banner">
+            <video class="hero-video" autoplay muted loop preload="metadata" poster="Casa 1.jpg">
+                <source src="Video 1.mp4" type="video/mp4">
+                Seu navegador não suporta o elemento de vídeo.
+            </video>
             <div class="hero-particles" aria-hidden="true">
                 <div class="particle"></div>
                 <div class="particle"></div>
@@ -2024,7 +2029,7 @@
             </div>
             <div class="hero-content">
                 <h1 class="hero-title">Momentos Inesquecíveis</h1>
-                <p class="hero-subtitle">Unir famílias e amigos, de forma leve e plena, para desfrutarem momentos inesquecíveis, com a energia da natureza</p>
+                <p class="hero-subtitle"><strong>Unir famílias e amigos, de forma leve e plena, para desfrutarem momentos inesquecíveis, com a energia da natureza</strong></p>
                 <div class="cta-buttons">
                     <a href="javascript:void(0)" onclick="showPage('contato')" class="btn btn-primary">
                         <i class="fas fa-calendar-alt" aria-hidden="true"></i>
@@ -2091,8 +2096,8 @@
                     
                     <div class="card fade-in" style="max-width: 950px; margin: 0 auto; text-align: center;">
                         <h3 class="card-title" style="font-size: 2rem; margin-bottom: var(--space-xl);">Receba nossas Boas Vindas!</h3>
-                        <p style="font-size: 1.3rem; line-height: 1.8; margin-bottom: var(--space-xl); color: var(--primary); font-weight: 600; font-family: var(--font-heading);">
-                            "Unir famílias e amigos, de forma leve e plena, para desfrutarem momentos inesquecíveis, com a energia da natureza"
+                        <p style="font-size: 1.3rem; line-height: 1.8; margin-bottom: var(--space-xl); color: var(--primary); font-weight: 450; font-family: var(--font-heading);">
+                            "<strong>Unir famílias e amigos, de forma leve e plena, para desfrutarem momentos inesquecíveis, com a energia da natureza</strong>"
                         </p>
                         <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: var(--space-xl); color: var(--text-dark);">
                             Nosso espaço em Vargem Grande é ideal para festas e eventos familiares até 100 convidados. 
@@ -2371,7 +2376,7 @@
                     <i class="fab fa-whatsapp" aria-hidden="true"></i>
                 </a>
             </div>
-            <p style="font-size: 1.1rem; margin-bottom: var(--space-sm);">&copy; 2024 Espaço Para Festas Familiares. Todos os direitos reservados.</p>
+            <p style="font-size: 1.1rem; margin-bottom: var(--space-sm);">&copy; 2025 Espaço Para Festas Familiares. Todos os direitos reservados.</p>
             <p style="opacity: 0.9; font-size: 1rem; margin-bottom: var(--space-xs);">Unindo famílias com a energia da natureza</p>
             <p style="opacity: 0.9; font-size: 1rem; font-weight: 500; color: var(--secondary-light);">Vibrações Positivas!</p>
         </div>
@@ -2907,14 +2912,20 @@
 
         // Performance Optimization
         function optimizePerformance() {
-            // Preload critical images
-            const criticalImages = ['Casa 1.jpg'];
-            criticalImages.forEach(src => {
-                const link = document.createElement('link');
-                link.rel = 'preload';
-                link.as = 'image';
-                link.href = src;
-                document.head.appendChild(link);
+            // Preload critical media
+            const criticalMedia = ['Video 1.mp4', 'Casa 1.jpg'];
+            criticalMedia.forEach(src => {
+                if (src.endsWith('.mp4')) {
+                    const video = document.createElement('video');
+                    video.preload = 'metadata';
+                    video.src = src;
+                } else {
+                    const link = document.createElement('link');
+                    link.rel = 'preload';
+                    link.as = 'image';
+                    link.href = src;
+                    document.head.appendChild(link);
+                }
             });
             
             // Enable font-display: swap for better loading
